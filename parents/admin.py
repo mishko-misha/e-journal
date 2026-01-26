@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from parents.models import *
+
+admin.site.register(Parents)

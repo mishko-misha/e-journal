@@ -1,0 +1,41 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Register</title>
+    <style>
+        form { max-width: 420px; margin: 24px auto; }
+        .form-row { display: flex; align-items: center; margin-bottom: 12px; }
+        .form-row label { width: 120px; margin-right: 12px; text-align: right; }
+        .form-row input { flex: 1; padding: 6px 8px; }
+        .form-row button { margin-left: 132px; padding: 8px 12px; }
+    </style>
+</head>
+<body>
+<form action="/register/" method="post">
+    {% csrf_token %}
+    <div class="form-row">
+        <label>First Name</label>
+        <input type="text" name="first_name" required>
+    </div>
+    <div class="form-row">
+        <label>Last Name:</label>
+        <input type="text" name="last_name" required>
+    </div>
+    <div class="form-row">
+        <label>Login:</label>
+        <input type="text" id="login" name="login" required>
+    </div>
+    <div class="form-row">
+        <label>Email:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-row">
+        <label>Password:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <div class="form-row">
+        <button type="submit">Register</button>
+    </div>
+</form>
+</body>
+</html>
