@@ -36,11 +36,12 @@ def register(request):
 
 
 def logout(request):
-    logout(request)
+    auth.logout(request)
     return redirect("login")
 
 
 @login_required(login_url='login')
+@user_should_be('Student')
 def user_view(request, user_id):
     user = User.objects.get(id=user_id)
     user_group = user.groups.all()[0]
