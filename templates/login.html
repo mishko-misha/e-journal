@@ -13,19 +13,13 @@
 <body>
 <form action="/login/" method="post">
     {% csrf_token %}
+    {% for field in form %}
     <div class="form-row">
-        <label>Login:</label>
-        <input type="text" id="login" name="login" required>
+        {{ field.label_tag }}
+        {{ field }}
+        {{ field.errors }}
     </div>
-    <div class="form-row">
-        <label>Password:</label>
-        <input type="password" id="password" name="password" required>
-    </div>
-    {% if request.method == "POST" and error %}
-    <div class="form-row">
-        <p style="color: red; margin: 0 0 12px 132px;">{{ error }}</p>
-    </div>
-    {% endif %}
+    {% endfor %}
     <div class="form-row">
         <button type="submit">Login</button>
     </div>

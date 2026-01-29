@@ -1,4 +1,7 @@
 <html>
-<h1>Profile</h1><br>
-{{ user.first_name }} {{ user.last_name }} ({{ user_group }})
+<h1>Profile</h1>
+ <p> Name: {{ user.first_name }}</p>
+ <p> Last name: {{ user.last_name }}</p>
+ <p> Position: {{ user_group }}</p>
+ <p>Email: {{user.email}}</p>
 </html>
