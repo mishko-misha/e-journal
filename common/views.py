@@ -1,13 +1,18 @@
 from django.contrib import auth
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
+from django.views import View
 
 from common.forms import *
 
+class LoginView(View):
+    form = LoginForm
+    template_name = 'login.html'
+    def get(self, request):
+        return render(request, self.template_name, context={'form': self.form()})
 
-def login(request):
-    if request.method == 'POST':
-        user_login = LoginForm(request.POST)
+    def post(self, request):
+        user_login = self.form(request.POST)
         user_login.is_valid()
         user = auth.authenticate(request, username=user_login.cleaned_data['login'],
                                  password=user_login.cleaned_data['password'])
@@ -15,32 +20,34 @@ def login(request):
             auth.login(request, user)
             return redirect("/user/" + str(user.id) + "/")
         else:
-            return render(request, 'login.html', {'error': 'Invalid login or password'})
-    else:
-        form = LoginForm()
-        context = {'form': form}
-        return render(request, 'login.html', context)
+            return render(request, self.template_name, {'error': 'Invalid login or password'})
 
+class RegisterView(View):
+    form = RegisterForm
+    template_name = 'register.html'
 
-def register(request):
-    if request.method == 'POST':
-        user = RegisterForm(request.POST)
-        user.is_valid()
-        user.save()
+    def get(self, request):
+        return render(request, self.template_name, context={'form': self.form()})
+
+    def post(self, request):
+        form = self.form(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("login")
+        return render(request, self.template_name, context={'form': form})
+
+class LogoutView(View):
+    def get(self, request):
         return redirect("login")
-    else:
-        form = RegisterForm()
-        context = {'form': form}
-        return render(request, "register.html", context)
 
+    def post(self, request):
+        auth.logout(request)
+        return redirect("login")
 
-def logout(request):
-    auth.logout(request)
-    return redirect("login")
+class UserView(LoginRequiredMixin, View):
+    template_name = 'user_page.html'
 
-
-@login_required(login_url='login')
-def user_view(request, user_id):
-    user = User.objects.get(id=user_id)
-    user_group = user.groups.all()[0]
-    return render(request, 'user_page.html', {'user': user, 'user_group': user_group.name})
+    def get(self, request, user_id):
+        user = User.objects.get(id=user_id)
+        user_group = user.groups.all()[0]
+        return render(request, self.template_name, {'user': user, 'user_group': user_group.name})

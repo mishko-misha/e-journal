@@ -13,6 +13,9 @@
 <body>
 <form action="/register/" method="post">
     {% csrf_token %}
+    <div class="form-row">
+        <h1> Weclome to e-jornal!</h1>
+    </div>
     {% for field in form %}
     <div class="form-row">
         {{ field.label_tag }}

@@ -10,11 +10,9 @@ class RegisterForm(UserCreationForm):
     password2 = CharField(label='Confirm Password', widget=PasswordInput(attrs={'autocomplete': 'new-password'}))
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name']
+        fields = ['username', 'first_name', 'last_name', 'email']
         help_texts = {
-            'username': '',
-            'Password:': '',
-            'Password confirmation:': '',
+            'username': ''
         }
 
 class LoginForm(Form):
