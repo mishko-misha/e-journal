@@ -51,10 +51,10 @@ class Lesson(models.Model):
     school_class = models.ForeignKey('SchoolClass', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.subject} - {self.teacher.username} - {self.lesson_date} - {self.lesson_name} - {self.description} - {self.home_work} - {self.school_class}"
+        return f"{self.subject} - {self.teacher.username} - {self.lesson_date} - {self.lesson_name} - {self.description} - {self.school_class}"
 
     def __repr__(self):
-        return f"{self.subject} - {self.teacher.username} - {self.lesson_date} - {self.lesson_name} - {self.description} - {self.home_work} - {self.school_class}"
+        return f"{self.subject} - {self.teacher.username} - {self.lesson_date} - {self.lesson_name} - {self.description} - {self.school_class}"
 
 
 class Files(models.Model):

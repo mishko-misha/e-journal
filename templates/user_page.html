@@ -1,9 +1,9 @@
 <html>
 <h1>Profile</h1>
- <p> Name: {{ user.first_name }}</p>
- <p> Last name: {{ user.last_name }}</p>
- <p> Position: {{ user_group }}</p>
- <p>Email: {{user.email}}</p>
+<p> Name: {{ user.first_name }}</p>
+<p> Last name: {{ user.last_name }}</p>
+<p> Position: {{ user_group }}</p>
+<p>Email: {{user.email}}</p>
 <form action="{% url 'logout' %}" method="post">
     {% csrf_token %}
     <button type="submit">Logout</button>

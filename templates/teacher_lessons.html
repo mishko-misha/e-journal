@@ -2,13 +2,13 @@
 <head>
     <meta charset="utf-8">
     <title>Register</title>
-<style>
-    form { max-width: 420px; margin: 24px 0 24px 24px; }
-    .form-row { display: flex; align-items: center; margin-bottom: 12px; }
-    .form-row label { width: 100px; margin-right: 8px; text-align: left; }
-    .form-row input, .form-row select, .form-row textarea { flex: 1; padding: 6px 8px; box-sizing: border-box; min-width: 0; }
-    .form-row button { margin-left: calc(100px + 8px); padding: 8px 12px; }
-</style>
+    <style>
+        form { max-width: 420px; margin: 24px 0 24px 24px; }
+        .form-row { display: flex; align-items: center; margin-bottom: 12px; }
+        .form-row label { width: 100px; margin-right: 8px; text-align: left; }
+        .form-row input, .form-row select, .form-row textarea { flex: 1; padding: 6px 8px; box-sizing: border-box; min-width: 0; }
+        .form-row button { margin-left: calc(100px + 8px); padding: 8px 12px; }
+    </style>
 </head>
 <body>
 <form action="/teacher/lessons" method="post">
@@ -27,7 +27,7 @@
 {% for one_lesson in teacher_lessons %}
 <div class="form-row">
     {{ one_lesson}}
-    </div>
+</div>
 {% endfor %}
 </body>
 </html>
