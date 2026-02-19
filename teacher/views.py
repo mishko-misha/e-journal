@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from common.forms import LessonForm
-from common.models import Lesson, StudentClass, LessonVisits
+from common.models import Lesson, StudentClass, LessonVisits, Grades
 
 
 def teacher_page(request):
@@ -55,7 +55,7 @@ class TeacherSpecificLessonView(View):
         form = LessonForm(request.POST, instance=lesson)
         form.is_valid()
         form.save()
-        return redirect(self.template_name, lesson_id=lesson_id)
+        return redirect('teacher_specific_lesson', lesson_id=lesson_id)
 
 
 class AbsenceView(View):
@@ -76,10 +76,44 @@ class AbsenceView(View):
 
         return redirect('teacher_specific_lesson', lesson_id=lesson_id)
 
+class GradeView(View):
+    def get(self, request, lesson_id):
+        lesson = Lesson.objects.get(id=lesson_id)
+        current_class = lesson.school_class
+        student_in_class = [itm.student for itm in StudentClass.objects.filter(school_class=current_class).all()]
 
-def grade(request, lesson_id):
-    return f'Ok grade for lesson id {lesson_id}'
+        for student in student_in_class:
+            grade = Grades.objects.filter(lesson=lesson, student=student).first()
+            student.grade = grade.grade if grade else ""
 
+        form = LessonForm(instance=lesson)
+        return render(request, 'teacher_specific_lesson.html',
+                      context={'form': form, 'lessons': lesson, 'class_students': student_in_class})
+
+    def post(self, request, lesson_id):
+        lesson = Lesson.objects.get(id=lesson_id)
+        teacher = request.user
+
+        for key, value in request.POST.items():
+            if key.startswith('grade_'):
+                student_id = int(key.replace('grade_', ''))
+
+                if value.strip() == '':
+                    continue
+
+                try:
+                    grade_value = int(value)
+                except ValueError:
+                    continue
+
+                Grades.objects.update_or_create(
+                    student_id=student_id,
+                    lesson=lesson,
+                    teacher=teacher,
+                    defaults={'grade': grade_value}
+                )
+
+        return redirect('teacher_specific_lesson', lesson_id=lesson_id)
 
 def check_student_homework(request, lesson_id, homework_id):
     return f'Ok check homework id {homework_id} for lesson id {lesson_id}'

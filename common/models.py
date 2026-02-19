@@ -1,3 +1,5 @@
+from django.utils.timezone import now
+
 from django.db import models
 
 
@@ -71,12 +73,14 @@ class Grades(models.Model):
     student = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='grades_as_student')
     lesson = models.ForeignKey('Lesson', on_delete=models.CASCADE)
     teacher = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='grades_as_teacher')
+    date_grade = models.DateField(default=now)
+    grade = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.student.username} - {self.lesson.lesson_name} - {self.teacher.username}"
+        return f"{self.student.username} - {self.lesson.lesson_name} - {self.teacher.username} - {self.grade} - {self.date_grade}"
 
     def __repr__(self):
-        return f"{self.student.username} - {self.lesson.lesson_name} - {self.teacher.username}"
+        return f"{self.student.username} - {self.lesson.lesson_name} - {self.teacher.username} - {self.grade} - {self.date_grade}"
 
 class StudentHomeWork(models.Model):
     student = models.ForeignKey('auth.User', on_delete=models.CASCADE)

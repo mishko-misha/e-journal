@@ -1,6 +1,6 @@
 <html>
 <body>
-<form action="{% url 'teacher_specific_lesson' lessons.id %}" method="post">
+<form action="/teacher/lessons/{{ lessons.id }}/" method="post">
     {% csrf_token %}
     {{ form }}
     <button type="submit">Update lesson</button>
@@ -18,5 +18,17 @@
     <br>
     <input type="submit" value="Submit Absence">
 </form>
+
+<!--<form action="/teacher/lessons/{{ lessons.id }}/grade/" method="post">-->
+<!--    {% csrf_token %}-->
+<!--    {% for one_student in class_students %}-->
+<!--    <div class="form-row">-->
+<!--        <label>{{ one_student.first_name }} {{ one_student.last_name }}</label>-->
+<!--        <input type="number" name="grade_{{ one_student.id }}" value="{{ one_student.grade }}">-->
+<!--    </div>-->
+<!--    {%endfor%}-->
+<!--    <br>-->
+<!--    <input type="submit" value="Submit Grades">-->
+<!--</form>-->
 </body>
 </html>
